@@ -8,6 +8,7 @@ public class InteractionManager : MonoBehaviour
 
     public Weapon hoveredWeapon = null;
     public Ammo hoveredAmmo = null;
+    public Throwables hoveredThrowables = null;
 
     private void Awake()
     {
@@ -64,6 +65,24 @@ public class InteractionManager : MonoBehaviour
                 if (hoveredAmmo)
                 {
                     hoveredAmmo.GetComponent<Outline>().enabled = false;
+                }
+            }
+            //Throwable
+            if (objectWeHitByRayCast.GetComponent<Throwables>())
+            {
+                hoveredThrowables = objectWeHitByRayCast.gameObject.GetComponent<Throwables>();
+                hoveredThrowables.GetComponent<Outline>().enabled = true;
+
+                if (Input.GetKeyDown(KeyCode.F))
+                {
+                    WeaponManager.Instance.PickupThrowables(hoveredThrowables);
+                }
+            }
+            else
+            {
+                if (hoveredThrowables)
+                {
+                    hoveredThrowables.GetComponent<Outline>().enabled = false;
                 }
             }
         }

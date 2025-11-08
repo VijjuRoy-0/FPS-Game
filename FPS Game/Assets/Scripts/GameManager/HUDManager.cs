@@ -26,6 +26,7 @@ public class HUDManager : MonoBehaviour
     public TextMeshProUGUI tacticalAmoutUI;
 
     public Sprite emptySlot;
+    public Sprite greySlot;
 
     public GameObject middleDot;
 
@@ -72,15 +73,24 @@ public class HUDManager : MonoBehaviour
             activeWeaponUI.sprite= emptySlot;
             unActiveWeaponUI.sprite = emptySlot;
         }
+
+        if (WeaponManager.Instance.lethalsCount <= 0)
+        {
+            lethalUI.sprite = greySlot;
+        }
+        if (WeaponManager.Instance.tacticalCount <= 0)
+        {
+            tacticalUI.sprite = greySlot;
+        }
     }
 
     private Sprite GetWeaponSprite(Weapon.WeaponModel model)
     {
         switch (model) {
             case Weapon.WeaponModel.Pistol:
-                return Instantiate(Resources.Load<GameObject>("Pistol_Weapon")).GetComponent<SpriteRenderer>().sprite;
+                return Resources.Load<GameObject>("Pistol_Weapon").GetComponent<SpriteRenderer>().sprite;
             case Weapon.WeaponModel.M16:
-                return Instantiate(Resources.Load<GameObject>("M16_Weapon")).GetComponent<SpriteRenderer>().sprite;
+                return Resources.Load<GameObject>("M16_Weapon").GetComponent<SpriteRenderer>().sprite;
             default:
                 return null;
         }
@@ -92,9 +102,9 @@ public class HUDManager : MonoBehaviour
         switch (model)
         {
             case Weapon.WeaponModel.Pistol:
-                return Instantiate(Resources.Load<GameObject>("Pistol_Ammo")).GetComponent<SpriteRenderer>().sprite;
+                return Resources.Load<GameObject>("Pistol_Ammo").GetComponent<SpriteRenderer>().sprite;
             case Weapon.WeaponModel.M16:
-                return Instantiate(Resources.Load<GameObject>("Rifle_Ammo")).GetComponent<SpriteRenderer>().sprite;
+                return Resources.Load<GameObject>("Rifle_Ammo").GetComponent<SpriteRenderer>().sprite;
             default:
                 return null;
         }
@@ -111,5 +121,24 @@ public class HUDManager : MonoBehaviour
             }
         }
         return null;
+    }
+
+    internal void UpdateThrowablesUI()
+    {
+        lethalAmoutUI.text = $"{WeaponManager.Instance.lethalsCount}";
+        tacticalAmoutUI.text = $"{WeaponManager.Instance.tacticalCount}";
+
+        switch (WeaponManager.Instance.equippedLethalType) 
+        {
+            case Throwables.ThrowableType.Grenade:
+                lethalUI.sprite = Resources.Load<GameObject>("Grenade").GetComponent<SpriteRenderer>().sprite;
+                break;
+        }
+        switch (WeaponManager.Instance.equippedTacticalType)
+        {
+            case Throwables.ThrowableType.SmokeGrenade:
+                tacticalUI.sprite = Resources.Load<GameObject>("SomkeGrenade").GetComponent<SpriteRenderer>().sprite;
+                break;
+        }
     }
 }

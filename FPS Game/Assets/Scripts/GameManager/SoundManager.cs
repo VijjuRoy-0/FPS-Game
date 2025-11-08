@@ -17,6 +17,9 @@ public class SoundManager : MonoBehaviour
     public AudioClip M14fireClip;
     public AudioClip M14ReloadClip;
 
+    [Header("Throwable")]
+    public AudioClip grenadeExplosionClip;
+
 
 
     private void Awake()
@@ -60,6 +63,11 @@ public class SoundManager : MonoBehaviour
     public void EmptySoundClip()
     {
         audioSource.PlayOneShot(emptySoundClip);
+    }
+
+    public void GrenadeSound()
+    {
+        audioSource.PlayOneShot(grenadeExplosionClip);
     }
 
    
